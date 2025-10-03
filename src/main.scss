@@ -1,8 +1,9 @@
-$bg-color:rgb(54, 160, 51);
+$bg-color:rgb(210, 255, 208);
 $w:100px;
 
 @mixin main-font{
-    color: aqua;
+       @include set-color-text();
+    // color: aqua;
     font-size: 25px;
     line-height: 30px;
 }
@@ -14,8 +15,18 @@ $w:100px;
     padding-right: $value;
 }
 
+@mixin set-color-text {
+    @if(lightness($bg-color)< 30%){
+        color: azure;
+    }
+    @else{
+        color: rgb(255, 1, 1);
+    }
+}
+
 body{
     background-color: $bg-color;
+    @include set-color-text();
 }
 
 .block{
@@ -41,10 +52,50 @@ body{
 }
 
 p{
-    @include main-font;
+    @include main-font; //миксин
     @include padings(20px, rgb(3, 91, 255));
 
 }
+
+@for $i from 1 to 4 {
+    .item-#{$i}{
+        width: 90%;
+        height: 50px;
+        background-color: adjust-color(rgb(87, 1, 27), $lightness: +90% / $i);
+    }
+}
+
+/* верстка меню по ВЕМ*/
+.menu{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: 30px;
+    &__item{
+        color: rgb(255, 0, 179);
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.6s;
+        &:hover{
+            color: rgb(253, 122, 214);
+        }
+        &--active{
+            font-weight: bold;
+            color: rgb(0, 162, 255);
+        }
+        @media(max-width:900px){
+            font-size: 40px;
+        }
+    }
+    @media(max-width:768px){
+        display: none;
+    }
+}
+
+
+
 
 
 
